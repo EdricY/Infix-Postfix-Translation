@@ -1,0 +1,15 @@
+T__0=1
+T__1=2
+T__2=3
+ADDOP=4
+MULOP=5
+MOD=6
+ID=7
+NUM=8
+LETTER=9
+DIGIT=10
+WS=11
+';'=1
+'('=2
+')'=3
+'MOD'=6

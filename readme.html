@@ -1,0 +1,117 @@
+**A02 - Language Translation**
+
+
+Submission Tree
+-----------
+
+~~~~
+submission
+│   readme.html
+│
+├───ANTLR
+│   │   screenshot.png
+│   │   Scripture.g4
+│   │
+│   ├───gen
+│   │       Scripture.interp
+│   │       Scripture.tokens
+│   │       ScriptureBaseListener.java
+│   │       ScriptureBaseVisitor.java
+│   │       ScriptureLexer.interp
+│   │       ScriptureLexer.java
+│   │       ScriptureLexer.tokens
+│   │       ScriptureListener.java
+│   │       ScriptureParser.java
+│   │       ScriptureVisitor.java
+│   │
+│   ├───inputs
+│   │       test.txt
+│   │
+│   └───src
+│           Test.java
+│
+├───RDP
+│       Makefile
+│       screenshot1.png
+│       screenshot2.png
+│       scripture
+│       scripture.c
+│       smalltest.txt
+│       test.txt
+│       tokens.h
+│
+└───RegEx
+        screenshot1.png
+        screenshot2.png
+        scripture.pl
+        smalltest.txt
+        test.txt
+~~~~
+
+
+
+Student Info
+=============
+
+Your name: Edric Yu
+
+Operating system: Windows 10
+
+Lab computer or your own computer: my own
+
+Did you receive help from your instructor? No
+
+
+
+Implementations
+================
+
+
+ANTLR Actions
+--------------------------------
+
+
+ANTLR Listener
+--------------------------------
+
+
+RDP (Python)
+--------------------------------
+It does some but not much checking for valid input.
+The lexing process generally doesn't handle any errors,
+so `1e`, `2.3e+`, and `.4e-` will all be considered numbers.
+
+![](RDP/screenshot1.png)
+
+Full Test File
+---------------------------------
+Each of the implementations were validated with this test set.
+The tests I ran were not fully exhaustive, but I think this is enough to prove they work.
+~~~ plaintext linenumbers
+
+
+//extra credit
+
+~~~
+
+**output**:
+
+~~~ plaintext linenumbers
+
+
+//extra credit
+
+~~~
+
+
+Assignment Reflection
+======================
+
+Hours to complete assignment: ~5
+
+List any other comments below.
+Feel free to provide any feedback on how much you learned from doing the assignment, and whether you enjoyed doing it.
+
+
+
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
