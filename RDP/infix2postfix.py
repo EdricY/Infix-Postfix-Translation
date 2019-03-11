@@ -3,13 +3,14 @@ import sys
 from token import Token
 
 SHOW_ERRORS = True
+AST_FILE = "ast.gv"
 
 evalstack = []
 symbols = {}
 current_line = 1
 lookahead = Token("", -1)
 
-graphfp = open("ast.gv", "w")
+graphfp = open(AST_FILE, "w")
 graphcount = 0
 
 if (len(sys.argv) < 2):
@@ -104,10 +105,16 @@ def create_graph_edge(parent, child):
     graphfp.write('%s -> %s;\n' % (parent, child))
 
 
-
 def create_graph_edges(parent, child1, child2):
     create_graph_edge(parent, child1)
     create_graph_edge(parent, child2)
+
+def evalOperator(op):
+    node = create_graph_node(op)
+    c2 = evalstack.pop()
+    c1 = evalstack.pop()
+    create_graph_edges(node, c1, c2)
+    evalstack.append(node)
 
 def parse_id():
     sym = lookahead.val
@@ -141,11 +148,7 @@ def parse_factors():
         match(Token("", Token.MULOP))
         parse_factor()
         print(mulop, end=' ')
-        node = create_graph_node(mulop)
-        c2 = evalstack.pop()
-        c1 = evalstack.pop()
-        create_graph_edges(node, c1, c2)
-        evalstack.append(node)
+        evalOperator(mulop)
         parse_factors()
     # or epsilon
 
@@ -159,11 +162,7 @@ def parse_terms():
         match(Token("", Token.ADDOP))
         parse_term()
         print(addop, end=' ')
-        node = create_graph_node(addop)
-        c2 = evalstack.pop()
-        c1 = evalstack.pop()
-        create_graph_edges(node, c1, c2)
-        evalstack.append(node)
+        evalOperator(addop)
         parse_terms()
     # or epsilon
 
@@ -198,4 +197,6 @@ ordered_symbols = sorted(symbols.items(), key=lambda kv: kv[1])
 print("symbol table (symbol:line)")
 for (sym, line) in ordered_symbols:
     print(sym + ':' + str(line), end=" ")
+
+print("\nAST stored in " + AST_FILE)
 
