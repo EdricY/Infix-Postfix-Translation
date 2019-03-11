@@ -1,11 +1,16 @@
+# Generates the AST by "reading" the outputted postfix
 import sys
 from token import Token
 
 SHOW_ERRORS = True
 
+evalstack = []
 symbols = {}
 current_line = 1
 lookahead = Token("", -1)
+
+graphfp = open("ast.gv", "w")
+graphcount = 0
 
 if (len(sys.argv) < 2):
     print("need filename")
@@ -88,13 +93,36 @@ def match(tok):
                 return
         print("Error: '" + tok + "' expected, '" + str(lookahead) + "' found")
 
+def create_graph_node(name):
+    global graphcount
+    node = 'n' + str(graphcount)
+    graphcount += 1
+    graphfp.write('%s [label="%s"];\n' % (node, name))
+    return node
+
+def create_graph_edge(parent, child):
+    graphfp.write('%s -> %s;\n' % (parent, child))
+
+
+
+def create_graph_edges(parent, child1, child2):
+    create_graph_edge(parent, child1)
+    create_graph_edge(parent, child2)
+
 def parse_id():
     sym = lookahead.val
     line = current_line
     print(lookahead, end=' ')
+    evalstack.append(create_graph_node(sym))
     match(Token("", Token.ID))
     if (sym not in symbols):
         symbols[sym] = line
+
+def parse_num():
+    num = lookahead.val
+    print(lookahead, end=' ')
+    evalstack.append(create_graph_node(num))
+    match(Token("", Token.NUM))
 
 
 def parse_factor():
@@ -105,8 +133,7 @@ def parse_factor():
     elif lookahead.type == Token.ID:
         parse_id()
     else:
-        print(lookahead, end=' ')
-        match(Token("", Token.NUM))
+        parse_num()
 
 def parse_factors():
     if (lookahead.type == Token.MULOP):
@@ -114,6 +141,11 @@ def parse_factors():
         match(Token("", Token.MULOP))
         parse_factor()
         print(mulop, end=' ')
+        node = create_graph_node(mulop)
+        c2 = evalstack.pop()
+        c1 = evalstack.pop()
+        create_graph_edges(node, c1, c2)
+        evalstack.append(node)
         parse_factors()
     # or epsilon
 
@@ -127,6 +159,11 @@ def parse_terms():
         match(Token("", Token.ADDOP))
         parse_term()
         print(addop, end=' ')
+        node = create_graph_node(addop)
+        c2 = evalstack.pop()
+        c1 = evalstack.pop()
+        create_graph_edges(node, c1, c2)
+        evalstack.append(node)
         parse_terms()
     # or epsilon
 
@@ -134,39 +171,31 @@ def parse_expr():
     parse_term()
     parse_terms()
 
-# def parse_list():
-#     t = lookahead.type
-#     # TODO: maybe improve next line
-#     if t == Token.ID or t == Token.NUM or lookahead == "(":
-#         parse_expr()
-#         match(';')
-#         parse_list()
-#     # or epsilon
-
 def parse_expressions():
     parse_expr()
     match(';')
     print(';')
+    expr = evalstack.pop()
+    create_graph_edge('n0', expr)
     if lookahead.type == -1:
         print('eof')
         return
     parse_expressions()
 
 lookahead = next()
+graphfp.write("digraph {\n")
+graphfp.write("node [shape=none;margin=0];\n")
+graphfp.write("edge [color=gray];\n")
+graphfp.write('n0 [label="expressions"];\n')
+graphcount += 1
 parse_expressions()
+
+graphfp.write('}\n')
+
 
 # stackoverflow.com/questions/613183
 ordered_symbols = sorted(symbols.items(), key=lambda kv: kv[1])
 print("symbol table (symbol:line)")
 for (sym, line) in ordered_symbols:
     print(sym + ':' + str(line), end=" ")
-
-# parse_expr()
-# if lookahead.type != -1:
-#     print('\nleftover:')
-#     print(lookahead, end=" ")
-#     while lookahead.type != -1:
-#         lookahead = next()
-#         print(lookahead, end=" ")
-
 
