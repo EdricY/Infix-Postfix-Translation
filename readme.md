@@ -1,57 +1,5 @@
 **A02 - Language Translation**
 
-
-Submission Tree
------------
-
-~~~~
-submission
-│   readme.html
-│
-├───ANTLR
-│   │   Infix.g4
-│   │   Infix2Postfix.g4
-│   │
-│   ├───gen
-│   │       Infix.interp
-│   │       Infix.tokens
-│   │       Infix2Postfix.interp
-│   │       Infix2Postfix.tokens
-│   │       Infix2PostfixBaseListener.java
-│   │       Infix2PostfixBaseVisitor.java
-│   │       Infix2PostfixLexer.interp
-│   │       Infix2PostfixLexer.java
-│   │       Infix2PostfixLexer.tokens
-│   │       Infix2PostfixListener.java
-│   │       Infix2PostfixParser.java
-│   │       Infix2PostfixVisitor.java
-│   │       InfixBaseListener.java
-│   │       InfixBaseVisitor.java
-│   │       InfixLexer.interp
-│   │       InfixLexer.java
-│   │       InfixLexer.tokens
-│   │       InfixListener.java
-│   │       InfixParser.java
-│   │       InfixVisitor.java
-│   │
-│   ├───inputs
-│   │       test.txt
-│   │
-│   └───src
-│           PostfixConverter.java
-│           TestActions.java
-│
-└───RDP
-        ast.gv
-        ast.png
-        infix2postfix.py
-        infix2postfix2.py
-        test.txt
-        test2.txt
-        token.py
-~~~
-
-
 Student Info
 =============
 
