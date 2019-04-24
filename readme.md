@@ -170,5 +170,3 @@ Hours to complete assignment: ~6
 
 I enjoyed this assignment! I spent a lot of time chasing the wrong solution on the AST.
 When I realized it was the wrong way, I was too close to not finish it off.
-
-<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
